@@ -1,5 +1,24 @@
 #include <SPI.h>
 
+int pinSharp = A0;
+int pinHeat = A1;
+
+int pinMute = 2;
+
+
+uint16_t fanRpm[3] = {0, 0, 0};
+
+int lastXpos1=0, lastXpos2=0;
+int xPos1 = 0, xPos2 = 0;
+
+int lastAndrCpuTemp = 0, andrCpuTemp=0;
+boolean bFanOn = false;
+boolean bHeatOn = false;
+
+int sharpVal = 0, lastSharpVal=0;
+int dallasTemp = -99, lastDallasTemp = 0;
+
+char str[50];//, lastStr[50];
 void setup() {
   // put your setup code here, to run once:
   SPI.begin();
@@ -43,4 +62,43 @@ void loop() {
 
   }
 
+
+  checkRange();
 }
+
+void checkRange()
+{
+  
+}
+
+
+bool bSoundEnable = false;
+bool isSoundEnabled()
+{
+  return bSoundEnable;  
+}
+
+void soundOn()
+{
+  digitalWrite(pinMute, LOW);              
+  bSoundEnable = true;
+}
+
+void soundOff()
+{
+  digitalWrite(pinMute, HIGH);  
+  bSoundEnable = false;
+}
+
+void formatData()
+{
+  sprintf(&(str[10]), "%04d %04d %04d    %03x %03x %03x", 
+                      dallasTemp, sharpVal, andrCpuTemp, 
+                      fanRpm[0], fanRpm[1], fanRpm[2]);
+                          
+  str[25] = bFanOn? 'E':'D';
+  str[26] = bHeatOn? 'E':'D';
+}
+
+
+
