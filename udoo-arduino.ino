@@ -14,7 +14,7 @@ int lastAndrCpuTemp = 0, andrCpuTemp=0;
 boolean bFanOn = false;
 boolean bHeatOn = false;
 
-int sharpVal = 0, lastSharpVal=0;
+int lastSharpVal=0;
 int dallasTemp = -99, lastDallasTemp = 0;
 
 char str[50];//, lastStr[50];
@@ -26,7 +26,7 @@ void setup() {
   pinMode(PIN_SHARP, INPUT);
 
   
-  pinMode(9, OUTPUT);  
+  pinMode(8, OUTPUT);  
   
 }
 
@@ -36,9 +36,10 @@ int adcSums = 0;
 int adcSum = 0;
 int adcAverage=0;
 void loop() {
-  digitalWrite(9, HIGH);   
-  digitalWrite(9, LOW);   
-  //delay(10);
+  digitalWrite(8, HIGH);   
+  //delay(1);
+  digitalWrite(8, LOW);   
+  
   SPI.transfer(0xab);
   SPI.transfer(0xed);
   i++;

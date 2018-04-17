@@ -1,4 +1,4 @@
-#include <arduino.h>
+#include <Arduino.h>
 #include "pins.h"
 int collectedVals=0;
 long  averVal = 0;
