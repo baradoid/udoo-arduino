@@ -9,15 +9,18 @@ int recalcMvToCm(int mV);
 
 void checkRange()
 {
-    for(int i=0; i<101; i++){
+    for(int i=0; i<50; i++){
       averVal += analogRead(PIN_SHARP );
       collectedVals++;
   }
-  if(collectedVals>=300){
-    averVal /= 300;
+  if(collectedVals>=500){
+    averVal /= collectedVals;
     //int mV = fir(averVal)*4.9; //in mV
     int mV = averVal*4.9; //in mV    
-    sharpVal = recalcMvToCm(mV);
+    float volts = averVal*0.0048828;
+    sharpVal = 13*pow(volts, -1);
+    if(sharpVal>50) sharpVal = 50;
+    //sharpVal = recalcMvToCm(mV);
     
     collectedVals = 0;
     averVal = 0;
