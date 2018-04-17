@@ -76,13 +76,13 @@ void loop() {
 
   if((millis()-lastMillis)>1000){
     lastMillis = millis();
-    Serial.print("Iters..");
-    Serial.print(i, DEC);
-    Serial.println("");    
-    
-    Serial1.print("Iters..");    
-    Serial1.print(i, DEC);
-    Serial1.println("");    
+//    Serial.print("Iters..");
+//    Serial.print(i, DEC);
+//    Serial.println("");    
+//    
+//    Serial1.print("Iters..");    
+//    Serial1.print(i, DEC);
+//    Serial1.println("");    
     i = 0;
   }
   else{
