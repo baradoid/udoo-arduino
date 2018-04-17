@@ -16,12 +16,15 @@ boolean bHeatOn = false;
 int lastSharpVal=0;
 int dallasTemp = -99, lastDallasTemp = 0;
 
-char str[50];//, lastStr[50];
+char str[50],lastStr[50];
 uint64_t lastPhoneMsgRecvTime = 0;
 
 void setup() {
   // put your setup code here, to run once:
   SPI.begin();
+  SPI.setDataMode(SPI_MODE3);
+  SPI.setClockDivider(SPI_CLOCK_DIV16);
+  //SPI.setBitOrder(LSBFIRST);
   Serial.begin(115200);
   Serial1.begin(115200);
   pinMode(PIN_SHARP, INPUT);
@@ -55,26 +58,20 @@ void loop() {
   
     
   //if(((curTime - lastSendReportTime) > 10) && bDataUpdated){     
-    sprintf(&(str[0]), "%04X", xPos1);
-    str[4] = ' ';
-    sprintf(&(str[5]), "%04X", xPos2);
-    str[9] = ' ';
-    sprintf(&(str[10]), "%04d", dallasTemp);       
-    str[14] = ' ';   
-    sprintf(&(str[15]), "%04d", sharpVal); 
-    str[19] = ' '; 
-    sprintf(&(str[20]), "%04d    000 000 000", /*andrCpuTemp*/ 0);
+    sprintf(&(str[0]), "%04X %04X %04d %04d", xPos1, xPos2, dallasTemp, sharpVal);        
+    //str[19] = ' '; 
+    //sprintf(&(str[20]), "%04d    000 000 000", /*andrCpuTemp*/ 0);
 
-    str[24] = str[27] = str[31] = str[35] = ' ';      
-    str[39] = 0;
+    //str[24] = str[27] = str[31] = str[35] = ' ';      
+    //str[39] = 0;
 
   
     //lastSendReportTime = curTime;
     //bDataUpdated = false;
-    //if(strcmp(str, lastStr) != 0){
-      //strcpy(lastStr, str);
+    if(strcmp(str, lastStr) != 0){
+      strcpy(lastStr, str);
       Serial.println(str);        
-    //}
+    }
   //}
 
   if((millis()-lastMillis)>1000){
