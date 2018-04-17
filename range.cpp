@@ -19,6 +19,7 @@ void checkRange()
     int mV = averVal*4.9; //in mV    
     float volts = averVal*0.0048828;
     sharpVal = 13*pow(volts, -1);
+    sharpVal = 65*pow(volts, -1.10);
     if(sharpVal>50) sharpVal = 50;
     //sharpVal = recalcMvToCm(mV);
     
