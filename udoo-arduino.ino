@@ -1,9 +1,8 @@
 #include <SPI.h>
+#include "pins.h"
+#include "range.h"
 
-int pinSharp = A0;
-int pinHeat = A1;
 
-int pinMute = 2;
 
 
 uint16_t fanRpm[3] = {0, 0, 0};
@@ -24,7 +23,11 @@ void setup() {
   SPI.begin();
   Serial.begin(115200);
   Serial1.begin(115200);
-  pinMode(A0, INPUT);
+  pinMode(PIN_SHARP, INPUT);
+
+  
+  pinMode(9, OUTPUT);  
+  
 }
 
 int i = 0;
@@ -33,6 +36,8 @@ int adcSums = 0;
 int adcSum = 0;
 int adcAverage=0;
 void loop() {
+  digitalWrite(9, HIGH);   
+  digitalWrite(9, LOW);   
   //delay(10);
   SPI.transfer(0xab);
   SPI.transfer(0xed);
@@ -66,12 +71,6 @@ void loop() {
   checkRange();
 }
 
-void checkRange()
-{
-  
-}
-
-
 bool bSoundEnable = false;
 bool isSoundEnabled()
 {
@@ -80,13 +79,13 @@ bool isSoundEnabled()
 
 void soundOn()
 {
-  digitalWrite(pinMute, LOW);              
+  digitalWrite(PIN_MUTE, LOW);              
   bSoundEnable = true;
 }
 
 void soundOff()
 {
-  digitalWrite(pinMute, HIGH);  
+  digitalWrite(PIN_MUTE, HIGH);  
   bSoundEnable = false;
 }
 
