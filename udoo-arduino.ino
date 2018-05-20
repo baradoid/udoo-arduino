@@ -30,7 +30,8 @@ void setup() {
   pinMode(PIN_SHARP, INPUT);
 
   
-  pinMode(8, OUTPUT);  
+  pinMode(8, OUTPUT);      
+  
   
 }
 
@@ -39,7 +40,14 @@ int lastMillis = 0;
 //int adcSums = 0;
 //int adcSum = 0;
 //int adcAverage=0;
+int lastSensItIn = 0;
+bool but1 = false;
+bool but2 = false;
 void loop() {
+
+  but1 = checkSensors(PIN_CAP_SENSOR_0);
+  but2 = checkSensors(PIN_CAP_SENSOR_1);
+  
   digitalWrite(8, HIGH);   
   //delay(1);
   digitalWrite(8, LOW);   
@@ -58,7 +66,7 @@ void loop() {
   
     
   //if(((curTime - lastSendReportTime) > 10) && bDataUpdated){     
-    sprintf(&(str[0]), "%04X %04X %04d %04d", xPos1, xPos2, dallasTemp, sharpVal);        
+    sprintf(&(str[0]), "%04X %04X %04d %01d %01d", xPos1, xPos2, sharpVal, but1, but2);        
     //str[19] = ' '; 
     //sprintf(&(str[20]), "%04d    000 000 000", /*andrCpuTemp*/ 0);
 
@@ -156,5 +164,26 @@ void formatData()
   str[26] = bHeatOn? 'E':'D';
 }
 
+bool checkSensors(int pinNum)
+{
+  pinMode(pinNum, OUTPUT);
+  digitalWrite(pinNum, LOW);     
+  pinMode(pinNum, INPUT);
+  int iters = 0;
+  for(iters=0; iters<15; iters++){
+    if(digitalRead(pinNum) == 1){
+      if(iters > 3){            
+        //Serial.print(pinNum, DEC);
+        //Serial.print(":cap in ");      
+        //Serial.print(i, DEC);
+        //Serial.println(""); 
+        lastSensItIn = iters;        
+      }
+      
+      break;
+    }       
+  }
+  return iters>1;
+}
 
 
