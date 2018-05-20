@@ -166,16 +166,17 @@ void formatData()
 
 bool checkSensors(int pinNum)
 {
-  pinMode(pinNum, OUTPUT);
-  digitalWrite(pinNum, LOW);     
-  pinMode(pinNum, INPUT);
   int iters = 0;
+  pinMode(pinNum, OUTPUT);
+  //digitalWrite(pinNum, LOW);     
+  pinMode(pinNum, INPUT);
+  
   for(iters=0; iters<15; iters++){
     if(digitalRead(pinNum) == 1){
-      if(iters > 3){            
+      if(iters > 1){            
         //Serial.print(pinNum, DEC);
         //Serial.print(":cap in ");      
-        //Serial.print(i, DEC);
+        //Serial.print(iters, DEC);
         //Serial.println(""); 
         lastSensItIn = iters;        
       }
